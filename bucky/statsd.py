@@ -88,10 +88,10 @@ class StatsDHandler(threading.Thread):
 
     def enqueue_gauges(self, stime):
         ret = 0
-        for k, v in self.gauges.iteritems():
+        for k, v in self.gauges.items():
             stat = "stats.gauges.%s" % k
             self.enqueue(stat, v, stime)
-            del self.gauges[k] 
+	    del self.gauges[k]
             ret += 1
         return ret
 
@@ -155,7 +155,7 @@ class StatsDHandler(threading.Thread):
 
     def handle_gauge(self, key, fields):
         try:
-            val = int(fields[0] or 0)
+            val = float(fields[0] or 0)
         except:
             self.bad_line()
             return
