@@ -91,7 +91,7 @@ class StatsDHandler(threading.Thread):
         for k, v in self.gauges.iteritems():
             stat = "stats.gauges.%s" % k
             self.enqueue(stat, v, stime)
-            self.gauges[k] = 0
+            del self.gauges[k] 
             ret += 1
         return ret
 
@@ -160,8 +160,6 @@ class StatsDHandler(threading.Thread):
             self.bad_line()
             return
         with self.lock:
-            if key not in self.gauges:
-                self.gauges[key] = 0
             self.gauges[key] = val
 
     def handle_counter(self, key, fields):
